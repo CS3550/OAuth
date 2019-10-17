@@ -11,15 +11,28 @@
 
 <body>
   This private page should only be accessible if you have logged in.
-  <a href="/logout">Logout</a>
-
+  <a onclick="logout()" href="#" >Logout</a>
+  <div id="log"></div>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs=" crossorigin="anonymous"></script>
   <script>
 
     var token = Cookies.get("3550_Bearer");
     console.log(token);
-    Cookies.remove("3550_Bearer");
-    console.log(Cookies.get("3550_Bearer"));
+    //Cookies.remove("3550_Bearer");
+    //console.log(Cookies.get("3550_Bearer"));
+    axios.get("/query")
+      .then(result=>{
+        document.querySelector("#log").innerHTML = result.data;
+      })
+      .catch(error=>{
+        console.log("Error with ajax call: " + error);
+      })
+    
+    function logout(){
+      Cookies.remove("3550_Bearer");
+      window.location = "/logout"
+    }
 
   </script>
 
